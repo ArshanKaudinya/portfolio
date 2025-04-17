@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-insights.com;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.vercel-insights.com https://www.gstatic.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src * blob: data:;
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://*.supabase.co https://*.vercel-insights.com;
+  connect-src 'self' https://*.supabase.co https://*.vercel-insights.com https://*.firebaseio.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com;
   frame-src 'none';
 `.replace(/\s{2,}/g, ' ').trim()
 
@@ -33,7 +33,6 @@ const securityHeaders = [
   },
 ]
 
-
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   async headers() {
@@ -47,3 +46,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
