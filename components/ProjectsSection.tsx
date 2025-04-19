@@ -6,26 +6,26 @@ import { Github, ExternalLink } from 'lucide-react'
 
 const projects = [
   {
+    name: 'Thrifty',
+    description:
+      'An early version of Thriftee focused on core concepts of full stack dev. Built with <span class="glow">React</span>, <span class="glow">Django</span>, <span class="glow">Supabase</span> and <span class="glow">Core CSS</span>.',
+    image: '/assets/thrifty.png',
+    repo: 'https://github.com/arshankaudinya/thrifty',
+  },
+  {
+    name: 'ChessMate',
+    description:
+      'An AI-powered chess coach that talks to you like a real mentor, built with <span class="glow">Rust</span>, <span class="glow">Tauri</span>, <span class="glow">React</span>, <span class="glow">Stockfish</span>, and <span class="glow">OpenAI</span>.',
+    image: '/projects/sorting.png',
+    repo: 'https://github.com/arshankaudinya/sorting-visualizer',
+  },
+  {
     name: 'Thriftee',
     description:
       'A full-stack thrift marketplace for India with real-time chat, item posting, and a sleek UI. Built with <span class="glow">Next.js</span>, <span class="glow">Supabase</span>, and <span class="glow">Tailwind</span>.',
     image: '/assets/thriftee.png',
     repo: 'https://github.com/ArshanKaudinya/thriftee',
     live: 'https://thriftee-alpha.vercel.app',
-  },
-  {
-    name: 'Thrifty',
-    description:
-      'An early version of Thriftee focused on core concepts of full stack dev. Built with <span class="glow">React</span>, <span class="glow">Django</span>, <span class="glow">Supabase</span> and <span class="glow">Core CSS</span>.',
-    image: '/projects/thrifty.png',
-    repo: 'https://github.com/arshankaudinya/thrifty',
-  },
-  {
-    name: 'Sorting Visualizer',
-    description:
-      'A clean and fast sorting visualizer built with <span class="glow">React</span>. Includes <span class="glow">bubble</span>, <span class="glow">merge</span>, <span class="glow">quick</span> and <span class="glow">insertion</span> sort.',
-    image: '/projects/sorting.png',
-    repo: 'https://github.com/arshankaudinya/sorting-visualizer',
   },
 ]
 

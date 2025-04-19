@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, Github, Linkedin } from 'lucide-react'
-import { db } from '@/lib/firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { Mail, Github, Linkedin, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export default function ReachOut() {
@@ -12,6 +10,9 @@ export default function ReachOut() {
   const [submitted, setSubmitted] = useState(false)
   const [easterInput, setEasterInput] = useState('')
   const [easterMsg, setEasterMsg] = useState('')
+  const [loading, setLoading]   = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -19,17 +20,38 @@ export default function ReachOut() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setErrorMsg('')
+    setLoading(true)
+  
     try {
-      await addDoc(collection(db, 'contacts'), {
-        ...form,
-        createdAt: serverTimestamp()
+      const payload = { ...form, website: '', ts: Date.now() }
+  
+      const res = await fetch('/api/reach-out', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       })
+  
+      if (!res.ok) {
+        const txt = await res.text()
+        const reason =
+          res.status === 400 ? 'Too short / too quick'
+          : res.status === 429 ? 'Too many requests — slow down'
+          : 'Server error'
+        setErrorMsg(`${reason}. If this keeps happening, email me directly.`)
+        throw new Error(txt)
+      }
+  
       setSubmitted(true)
       setForm({ name: '', email: '', message: '' })
     } catch (err) {
-      console.error('Firestore submission failed:', err)
+      console.error('Form submission failed:', err)
+    } finally {
+      setLoading(false)
     }
   }
+  
+  
 
   const handleEaster = (e: React.FormEvent) => {
     e.preventDefault()
@@ -132,21 +154,31 @@ export default function ReachOut() {
             onChange={handleChange}
           />
 
-            <div className="flex items-center gap-4">
-              <button
-                type="submit"
-                className="bg-white/10 px-6 py-2 rounded-md hover:bg-white/20 transition"
-              >
-                Send
-              </button>
-              {submitted && (
-                <p className="text-green-400 text-sm">Thanks! I&apos;ll get back to you soon.</p>
-              )}
-            </div>
+          {/* Honeypot field */}
+          {/* This field is hidden from users but will be filled by bots */}
+          <input type="text" name="website" className="hidden" autoComplete="off" />
+          <input type="hidden" name="ts" value={Date.now()} />
+
+          <div className="flex items-center gap-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-white/10 px-6 py-2 rounded-md hover:bg-white/20 transition flex items-center gap-2 disabled:opacity-50"
+            >
+              {loading && <Loader2 className="animate-spin text-white/60" size={16} />}
+              Send
+            </button>
+
+            {submitted && !loading && (
+              <p className="text-green-400 text-sm">Thanks! I&apos;ll get back to you soon.</p>
+            )}
+            {errorMsg && !loading && (
+              <p className="text-rose-400 text-sm">{errorMsg}</p>
+            )}
+          </div>
+
           </form>
         </div>
-
-        {/* Easter Egg Field */}
         <form onSubmit={handleEaster} className="pt-10">
         <div className="relative w-full md:w-1/2 mx-auto">
           <div className="absolute inset-0 rounded-md bg-white/10 backdrop-blur-sm shadow-inner z-[-1]" />
