@@ -15,7 +15,12 @@ export default function ResumeSection() {
             <div className="inline-block px-1 backdrop-blur-md rounded-lg">
               <h2 className="-mt-2 text-4xl md:text-5xl font-semibold text-white drop-shadow-[0_0_8px_#ffffffaa] inline-flex items-center">
                 Résumé
-                <a href="/resume.pdf" download aria-label="Download Résumé">
+                <a
+                  href="/assets/Arshan Kaudinya - Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Download Résumé"
+                >
                   <Download className="ml-2 mt-2 lg:mt-5 text-white hover:text-accent transition" size={24} />
                 </a>
               </h2>

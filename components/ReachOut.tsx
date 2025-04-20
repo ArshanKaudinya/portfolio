@@ -100,7 +100,7 @@ export default function ReachOut() {
                 <Github size={20} />
               </a>
               <a
-                href="https://linkedin.com/in/arshankaudinya"
+                href="https://www.linkedin.com/in/arshan-kaudinya-54b333255/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-4 border border-white/20 rounded-full bg-white/5 backdrop-blur-sm hover:shadow-[0_0_8px_#ffffff55] transition"
@@ -108,7 +108,7 @@ export default function ReachOut() {
                 <Linkedin size={20} />
               </a>
               <a
-                href="/resume.pdf"
+                href="/assets/Arshan Kaudinya - Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-4 border border-white/20 rounded-md text-sm bg-white/5 backdrop-blur-sm hover:shadow-[0_0_8px_#ffffff33] transition"
