@@ -5,6 +5,9 @@ export const dynamic = 'force-dynamic'
 export const metadata = {
   title: 'Arshan Kaudinya',
   description: 'clean & consistent',
+  icons: {
+    icon: '/assets/icon.png', 
+  },
 }
 
 

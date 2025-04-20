@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const raw = await req.json();
     const data = contactSchema.parse(raw);
 
-    // 800 ms minimum dwell‑time
+
     if (Date.now() - data.ts < 800) {
       return NextResponse.json({ ok: false }, { status: 400 });
     }

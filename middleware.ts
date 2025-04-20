@@ -21,6 +21,7 @@ export async function middleware(req: Request) {
       req.headers.get('x-forwarded-for')?.split(',')[0] ??
       req.headers.get('x-real-ip') ??
       'unknown'
+      
     const { success } = await limiter.limit(ip)
     if (!success) return new Response('Rate limit exceeded', { status: 429 })
     return NextResponse.next()
