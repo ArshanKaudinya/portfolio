@@ -13,11 +13,11 @@ const projects = [
     repo: 'https://github.com/arshankaudinya/thrifty',
   },
   {
-    name: 'ChessMate',
+    name: 'ChessMate <span class="text-sm text-white/70">(in development)</span>',
     description:
       'An AI-powered chess coach that talks to you like a real mentor, built with <span class="glow">Rust</span>, <span class="glow">Tauri</span>, <span class="glow">React</span>, <span class="glow">Stockfish</span>, and <span class="glow">OpenAI</span>.',
-    image: '/projects/sorting.png',
-    repo: 'https://github.com/arshankaudinya/sorting-visualizer',
+    image: '/assets/chessmate.png',
+    /* repo: 'https://github.com/ArshanKaudinya/ChessMate', */
   },
   {
     name: 'Thriftee',
@@ -81,7 +81,10 @@ export default function ProjectsSection() {
                 <Image src={p.image} alt={p.name} fill className="object-cover rounded" />
               </div>
               <div className="mt-2">
-                <h3 className="text-white font-bold text-lg">{p.name}</h3>
+              <h3
+                className="text-white font-bold text-lg"
+                dangerouslySetInnerHTML={{ __html: p.name }}
+              ></h3>
                 <p
                   className="text-[#B0B0B0] text-sm mt-1"
                   dangerouslySetInnerHTML={{ __html: p.description }}
@@ -118,7 +121,7 @@ export default function ProjectsSection() {
                 <Image src={p.image} alt={p.name} fill className="object-cover rounded" />
               </div>
               <div className="mt-2">
-                <h3 className="text-white font-bold text-lg">{p.name}</h3>
+                <h3 className="text-white font-bold text-lg" dangerouslySetInnerHTML={{ __html: p.name }}></h3>
                 <p
                   className="text-[#B0B0B0] text-sm mt-1"
                   dangerouslySetInnerHTML={{ __html: p.description }}

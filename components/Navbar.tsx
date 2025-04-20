@@ -41,26 +41,26 @@ export default function NavBar() {
   return (
     <>
       {/* Mobile-only: centered, show only active with left/right arrows */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 md:hidden flex items-center gap-4 text-[#EDEDED] z-50">
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 md:hidden flex items-center gap-4 text-[#EDEDED] z-50">
         <button
           onClick={() => scrollTo(Math.max(0, currentIndex - 1))}
           disabled={currentIndex === 0}
           className={`transition hover:text-[#9E9E9E] ${currentIndex === 0 ? 'opacity-30 cursor-default' : ''}`}
         >
-          <ChevronLeft size={22} />
+          <ChevronLeft size={24} />
         </button>
-        <span className="text-white text-base font-medium">{sections[currentIndex]}</span>
+        <span className="text-white text-xl font-medium">{sections[currentIndex]}</span>
         <button
           onClick={() => scrollTo(Math.min(sections.length - 1, currentIndex + 1))}
           disabled={currentIndex === sections.length - 1}
           className={`transition hover:text-[#9E9E9E] ${currentIndex === sections.length - 1 ? 'opacity-30 cursor-default' : ''}`}
         >
-          <ChevronRight size={22} />
+          <ChevronRight size={24} />
         </button>
       </div>
 
       {/* Desktop-only: original vertical nav */}
-      <div className="hidden md:flex fixed font-outfit top-6 left-6 z-50 flex-col items-center gap-3 text-[#EDEDED] font-medium">
+      <div className="hidden md:flex fixed font-outfit top-[37%] right-8 z-50 flex-col items-center gap-3 text-[#EDEDED] font-medium">
         <button
           onClick={() => scrollTo(Math.max(0, currentIndex - 1))}
           disabled={currentIndex === 0}
