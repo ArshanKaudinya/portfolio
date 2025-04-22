@@ -10,17 +10,15 @@ type BlobProps = {
 }
 
 function BlobMesh({ position }: BlobProps) {
-  const colorOptions = ['#ffffff']
-  const color = useMemo(() => colorOptions[Math.floor(Math.random() * colorOptions.length)], [colorOptions])
 
   return (
     <mesh position={position}>
       <circleGeometry args={[0.12, 16]} />
       <meshStandardMaterial
-        color={color}
+        color={"#ffffff"}
         metalness={0.5}
         roughness={0.5}
-        emissive={color}
+        emissive={"#ffffff"}
         emissiveIntensity={0.6}
       />
     </mesh>
@@ -29,14 +27,14 @@ function BlobMesh({ position }: BlobProps) {
 
 function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const { viewport } = useThree()
-  const bounds = useMemo(
-    () => {
-      const PAD = 1.15
-      return {
-       w: viewport.width * PAD, 
-       h: viewport.height * PAD,
-      } 
-    }, [])
+  const bounds = useMemo(() => {
+    const isSmall = viewport.width < 1024
+    const PAD = isSmall ? 1.15 : 1 
+    return {
+      w: viewport.width * PAD,
+      h: viewport.height * PAD,
+    }
+  }, [viewport.width, viewport.height])
   const [blobCount] = useState(() => {
     if (typeof window === 'undefined') return 30
     const w = window.innerWidth
@@ -78,8 +76,8 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
       if (pos.y < -bounds.h / 2 || pos.y > bounds.h / 2) vel.y *= -1
 
       const mouseVec = new THREE.Vector3(
-        mouse.current.x * bounds.w / 2,
-        mouse.current.y * bounds.h / 2,
+        mouse.current.x * viewport.width / 2,
+        mouse.current.y * viewport.height / 2,
         0
       )
 
@@ -97,7 +95,7 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
           const posB = b.position
       
           const dist = posA.distanceTo(posB)
-          const minDist = 0.24 // blob diameter (your circle radius * 2)
+          const minDist = 0.24
       
           if (dist < minDist) {
             const normal = posB.clone().sub(posA).normalize()
@@ -110,7 +108,6 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
               b.velocity.sub(impulse)
             }
       
-            // Optional: Separate overlapping blobs slightly
             const overlap = minDist - dist
             const correction = normal.multiplyScalar(overlap / 2)
             a.position.add(correction.clone().negate())
@@ -122,8 +119,8 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
     })
 
     if (lineRef.current) {
-      const maxConnections = blobCount * blobCount
-      const linePositions = new Float32Array(maxConnections * 6)
+      const maxConnections = blobCount * blobCount * 6
+      const linePositions = new Float32Array(maxConnections)
       let lineIndex = 0
 
       for (let i = 0; i < blobCount; i++) {
@@ -179,18 +176,18 @@ export default function Blobs() {
     }, [])
   
     return (
-      <div className="fixed inset-0 -z-10">
-        <Canvas
-          orthographic
-          camera={{ zoom: 50, position: [0, 0, 100] }}
-          className="w-full h-[100dvh]"
-          onCreated={({ gl }) => gl.setClearColor('#0a0a0a')}
-        >
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
-          <BlobField mouse={mouse} />
-        </Canvas>
-      </div>
+      <Canvas
+        orthographic
+        camera={{ zoom: 50, position: [0, 0, 100] }}
+        className="w-full h-full"
+        onCreated={({ gl }) => {
+          gl.setClearColor('#0a0a0a')
+        }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        <BlobField mouse={mouse} />
+      </Canvas>
     )
 }
 
