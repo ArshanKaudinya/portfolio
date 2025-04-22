@@ -4,8 +4,6 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useRef, useMemo, useEffect, useState} from 'react'
 import * as THREE from 'three'
 
-// const BLOB_COUNT = 70
-
 type BlobProps = {
   position: [number, number, number]
   index: number
@@ -31,24 +29,13 @@ function BlobMesh({ position }: BlobProps) {
 
 function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const { viewport } = useThree()
-  const [blobCount, setBlobCount] = useState(() => {
+  const [blobCount] = useState(() => {
     if (typeof window === 'undefined') return 30
     const w = window.innerWidth
     if (w >= 1200) return 70
-    if (w >=  768) return  40
-    return  30
-  })
-  useEffect(() => {
-    const calc = () => {
-      const w = window.innerWidth
-      if (w >= 1200) return 70
-      if (w >=  768) return  40
-      return  30
-    }
-    const onResize = () => setBlobCount(calc())
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
+    if (w >= 768) return 40
+    return 30
+  })  
   const groupRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
