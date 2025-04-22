@@ -30,9 +30,13 @@ function BlobMesh({ position }: BlobProps) {
 function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const { viewport } = useThree()
   const bounds = useMemo(
-    () => ({ w: viewport.width, h: viewport.height }),
-    []
-  )
+    () => {
+      const PAD = 1.15
+      return {
+       w: viewport.width * PAD, 
+       h: viewport.height * PAD,
+      } 
+    }, [])
   const [blobCount] = useState(() => {
     if (typeof window === 'undefined') return 30
     const w = window.innerWidth
@@ -43,8 +47,8 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const groupRef = useRef<THREE.Group>(null!)
   const lineRef = useRef<THREE.LineSegments>(null!)
 
-  const blobs = useMemo(() => {
-    return Array.from({ length: blobCount }, () => ({
+  const blobs = useMemo(() =>
+    Array.from({ length: blobCount }, () => ({
       position: new THREE.Vector3(
         (Math.random() - 0.5) * bounds.w,
         (Math.random() - 0.5) * bounds.h,
@@ -56,7 +60,7 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
         0
       ),
     }))
-  }, [viewport, blobCount])
+  , [blobCount, bounds.w, bounds.h])
 
   useFrame(() => {
     const group = groupRef.current
