@@ -29,6 +29,10 @@ function BlobMesh({ position }: BlobProps) {
 
 function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const { viewport } = useThree()
+  const bounds = useMemo(
+    () => ({ w: viewport.width, h: viewport.height }),
+    []
+  )
   const [blobCount] = useState(() => {
     if (typeof window === 'undefined') return 30
     const w = window.innerWidth
@@ -42,8 +46,8 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
   const blobs = useMemo(() => {
     return Array.from({ length: blobCount }, () => ({
       position: new THREE.Vector3(
-        (Math.random() - 0.5) * viewport.width,
-        (Math.random() - 0.5) * viewport.height,
+        (Math.random() - 0.5) * bounds.w,
+        (Math.random() - 0.5) * bounds.h,
         0
       ),
       velocity: new THREE.Vector3(
@@ -66,12 +70,12 @@ function BlobField({ mouse }: { mouse: React.RefObject<THREE.Vector2> }) {
       pos.add(vel)
       vel.multiplyScalar(0.988)
 
-      if (pos.x < -viewport.width / 2 || pos.x > viewport.width / 2) vel.x *= -1
-      if (pos.y < -viewport.height / 2 || pos.y > viewport.height / 2) vel.y *= -1
+      if (pos.x < -bounds.w / 2 || pos.x > bounds.w / 2) vel.x *= -1
+      if (pos.y < -bounds.h / 2 || pos.y > bounds.h / 2) vel.y *= -1
 
       const mouseVec = new THREE.Vector3(
-        mouse.current.x * viewport.width / 2,
-        mouse.current.y * viewport.height / 2,
+        mouse.current.x * bounds.w / 2,
+        mouse.current.y * bounds.h / 2,
         0
       )
 
@@ -171,20 +175,20 @@ export default function Blobs() {
     }, [])
   
     return (
-      <Canvas
-        orthographic
-        camera={{ zoom: 50, position: [0, 0, 100] }}
-        className="w-full h-full"
-        onCreated={({ gl }) => {
-          gl.setClearColor('#0a0a0a')
-        }}
-      >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 5, 5]} intensity={1} />
-        <BlobField mouse={mouse} />
-      </Canvas>
+      <div className="fixed inset-0 -z-10">
+        <Canvas
+          orthographic
+          camera={{ zoom: 50, position: [0, 0, 100] }}
+          className="w-full h-[100dvh]"
+          onCreated={({ gl }) => gl.setClearColor('#0a0a0a')}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <BlobField mouse={mouse} />
+        </Canvas>
+      </div>
     )
-  }
+}
 
   
 
