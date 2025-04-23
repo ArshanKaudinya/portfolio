@@ -17,7 +17,7 @@ const projects = [
     description:
       'An AI-powered chess coach that talks to you like a real mentor, built with <span class="glow">Rust</span>, <span class="glow">Tauri</span>, <span class="glow">React</span>, <span class="glow">Stockfish</span>, and <span class="glow">OpenAI</span>.',
     image: '/assets/chessmate.png',
-    /* repo: 'https://github.com/ArshanKaudinya/ChessMate', */
+    repo: 'https://github.com/ArshanKaudinya/ChessMate',
   },
   {
     name: 'Thriftee',
